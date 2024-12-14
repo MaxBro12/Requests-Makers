@@ -1,0 +1,7 @@
+# Python and IDEs
+__pycache__
+venv
+.vs
+.vscode
+.idea
+.env
