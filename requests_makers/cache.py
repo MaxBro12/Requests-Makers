@@ -79,7 +79,7 @@ class CacheMaker(ABC):
                     status=data.get('status', 0),
                     headers=data.get('headers'),
                     json=data.get('json'),
-                    time=time_from_json(data.get('time', ''))
+                    time=time_from_json(data.get('time', '10:0:0 1-1-2020'))
                 )
         return None
 

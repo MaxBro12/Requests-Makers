@@ -1,5 +1,5 @@
-from .maker_sync import HttpMaker
-from .makers_async import HttpMakerAsync
+from .sync import HttpMaker
+from .asyncio import HttpMakerAsync
 from .cache import CacheMaker, BaseCacheMaker
 from .response import ResponseData
 from .exceptions import RequestMethodNotFoundException

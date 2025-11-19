@@ -15,27 +15,29 @@ class HttpMakerAsync(Singleton):
         base_headers: None | dict = None,
         cache_class: CacheMaker | None = None,
         tries_to_reconnect: int = 3,
-        timeout_in_sec: int = 60,
+        timeout_in_sec: int = 10,
     ):
         if base_headers is None:
             base_headers = dict()
-        if base_url == '':
-            self._base_url = base_url
-        else:
-            self._base_url = base_url if base_url.endswith('/') else f'{base_url}/'
+        #if base_url == '':
+        #    self._base_url = base_url
+        #else:
+        #    self._base_url = base_url if base_url.endswith('/') else f'{base_url}/'
+        self._base_url = base_url
+
         self._headers = base_headers
         self._tries_to_reconnect = tries_to_reconnect
         self._timeout = timeout_in_sec
         self.cache = cache_class
 
-    def get_full_path(self, url) -> str:
-        if url == '':
+    def get_full_path(self, path: str) -> str:
+        if path == '':
             return self._base_url
-        return f'{self._base_url}{url if not url.startswith('/') else url[1:]}'
+        return f'{self._base_url}/{path if not path.startswith('/') else path[1:]}'
 
     async def __execute(
         self,
-        url: str,
+        path: str,
         method: Method,
         data: dict | None = None,
         json: dict | None = None,
@@ -44,7 +46,7 @@ class HttpMakerAsync(Singleton):
         try_wait_if_error: bool = True,
     ) -> ResponseData | None:
         logging.debug(
-            f'{self.__class__.__name__} {method} -> {url} ? {params}',
+            f'{self.__class__.__name__} {method} -> {path} ? {params}',
         )
         for _ in range(self._tries_to_reconnect):
             try:
@@ -54,7 +56,7 @@ class HttpMakerAsync(Singleton):
                         headers = {}
                     headers.update(self._headers)
                     async with http_method(
-                        url=self.get_full_path(url),
+                        url=self.get_full_path(path) if not path.startswith('http') else path,
                         headers=headers,
                         data=data,
                         json=json,
@@ -106,7 +108,7 @@ class HttpMakerAsync(Singleton):
                     return cache_data
 
         res = await self.__execute(
-            url=url,
+            path=url,
             method=method,
             data=data,
             json=json,
