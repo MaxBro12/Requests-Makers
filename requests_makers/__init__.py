@@ -1,8 +1,8 @@
 from .maker_sync import HttpMaker
 from .makers_async import HttpMakerAsync
-from .makers_cache import CacheMaker, BaseCacheMaker
-from .requests_dataclasses import ResponseData
-from .makers_exceptions import RequestMethodNotFoundException
+from .cache import CacheMaker, BaseCacheMaker
+from .response import ResponseData
+from .exceptions import RequestMethodNotFoundException
 
 
 __all__ = (

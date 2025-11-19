@@ -1,9 +1,9 @@
 import aiohttp
 import asyncio
 from .debug_log import create_log
-from .makers_cache import CacheMaker, BaseCacheMaker
-from .makers_exceptions import RequestMethodNotFoundException
-from .requests_dataclasses import ResponseData, Method
+from .cache import CacheMaker, BaseCacheMaker
+from .exceptions import RequestMethodNotFoundException
+from .response import ResponseData, Method
 from .makers_single import Singleton
 
 

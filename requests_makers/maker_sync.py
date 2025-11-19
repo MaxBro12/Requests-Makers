@@ -1,7 +1,7 @@
 import requests
-from .requests_dataclasses import ResponseData, Method
-from .makers_exceptions import RequestMethodNotFoundException
-from .makers_cache import CacheMaker, BaseCacheMaker
+from .response import ResponseData, Method
+from .exceptions import RequestMethodNotFoundException
+from .cache import CacheMaker, BaseCacheMaker
 from .debug_log import create_log
 from .makers_single import Singleton
 
@@ -13,14 +13,12 @@ class HttpMaker(Singleton):
         self,
         base_url: str = '',
         headers = None,
-        make_cache: bool = True,
         cache_class: CacheMaker = BaseCacheMaker()
     ):
         if headers is None:
             headers = dict()
         self.base_url = base_url if base_url.endswith('/') else f'{base_url}/'
         self.headers = headers
-        self.make_cache = make_cache
         self.cache = cache_class
 
         # ! Инициализируем сессию
